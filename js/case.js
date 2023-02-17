@@ -5,6 +5,7 @@ function updateNumber(isIncrease,fieldId,priceId){
     const phonePriceValue = parseInt(phonePriceValueString);
     let newPhoneNumber = 0;
     let phonePriceValueNew = 0;
+    
     if(isIncrease === true){
         newPhoneNumber = previousPhoneNumber+1;
         if(previousPhoneNumber===0 && priceId==='phone-price'){
@@ -18,19 +19,24 @@ function updateNumber(isIncrease,fieldId,priceId){
         }
     }
     else{
+        if(parseInt(document.getElementById(fieldId).value)=== 0){
+            alert("You can't press this button");
+            return;
+        }
         newPhoneNumber = previousPhoneNumber-1;
         phonePriceValueNew = phonePriceValue-(phonePriceValue/previousPhoneNumber);
     }
     document.getElementById(fieldId).value = newPhoneNumber;
     document.getElementById(priceId).innerText = phonePriceValueNew;
+    
     updateCost();
 }
 function updateCost(){
     const phonePrice = parseFloat(document.getElementById('phone-price').innerText);
     const casePrice =  parseFloat(document.getElementById('case-price').innerText);
     const subTotal = phonePrice + casePrice;
-    const totalTax = subTotal*.02;
-    const totalPrice = subTotal+ totalTax;
+    const totalTax = parseFloat((subTotal*.02).toFixed(2));
+    const totalPrice = subTotal+totalTax;
     document.getElementById('subtotal-price').innerText = subTotal;
     document.getElementById('tax-price').innerText = totalTax;
     document.getElementById('total-price').innerText = totalPrice;
